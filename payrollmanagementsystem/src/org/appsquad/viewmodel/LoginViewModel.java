@@ -41,8 +41,8 @@ public class LoginViewModel {
 		
 		session = Sessions.getCurrent();
 		
-		System.out.println("Login Page loading with session::"+session);
-		System.out.println("INIT LOAD");
+		//System.out.println("Login Page loading with session::"+session);
+		System.out.println("--- --- --- >>> >> > INIT LOAD");
 		
 	}
 	
@@ -75,7 +75,7 @@ public class LoginViewModel {
 							//Executions.sendRedirect("/test.zul");
 							Executions.sendRedirect("/home.zul");
 						}else {
-							Messagebox.show("Illigal entry");
+							Messagebox.show("ILLIGAL ENTRY","Sorry", Messagebox.OK, Messagebox.ERROR);
 						}
 					} finally{
 						if(preparedStatement!=null){
