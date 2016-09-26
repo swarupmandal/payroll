@@ -1,0 +1,98 @@
+<?page title="component allocation" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Components" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.ComponentMasterPerUnitViewModel')">
+		
+		<div align="center" height="40px">
+		
+		<hlayout spacing="50px">
+			
+		  
+		  <vbox>
+		  <label value="Company Name"></label>
+		  <combobox  width="200px" model="@bind(vm.companyBeanList)"
+				   onSelect="@command('onSelectCompanyName')"
+					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.companyName)" value="@bind(v.companyId)" />
+					  </template>
+		  </combobox>
+		  </vbox>
+		  <vbox>
+		  <label value="Unit Name"></label>
+		  <combobox  width="200px" model="@bind(vm.unitMasterBeanList)"
+				   onSelect="@command('onSelectUnitName')"
+					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.unitName)" value="@bind(v.unitId)" />
+					  </template>
+		</combobox>
+		</vbox>
+	
+		<vbox>  
+		<label value="Designation"></label>
+		<combobox width="200px" model="@bind(vm.designationBeanList)"
+			onSelect="@command('onSelectDesignation')" selectedItem="@bind(vm.designationBean)"
+				autocomplete="true" readonly="true">
+				<template name="model" var="v">
+				   <comboitem label="@bind(v.designation)" value="@bind(v.designationId)" />
+				</template>
+	    </combobox>
+	    </vbox>
+	    
+	    <!-- <vbox>
+	    <label value="Working Hour"></label>
+	    <textbox value="@bind(vm.componentPerUnitMasterBean.workinghour)" width="90%"></textbox>
+	    </vbox>
+	    
+	    <vbox>
+	    <label value="Base Days"></label>
+	    <textbox value="@bind(vm.componentPerUnitMasterBean.baseDays)" width="90%"></textbox>
+	    </vbox> -->
+	    
+		</hlayout>
+		
+		</div>
+		<space></space>
+		<div>
+			
+						<grid model="@bind(vm.componentPerUnitMasterBeanList)" mold="paging" pageSize="9">	
+							<columns>
+								<column label="Sl no" value=""></column>
+								<column label="Component Name"></column>
+								<column label="Component Type"></column>
+								<column label="Amout"></column>
+								<column label="Check"></column>
+							</columns>
+					
+							<rows>
+							<template name="model" var = "v">
+							  <row> 	
+								<label value="@bind(v.count)"></label>
+								<textbox value="@bind(v.componet)"></textbox>
+								<textbox value="@bind(v.componentType)"></textbox>
+								<textbox value="@bind(v.desCompoAmount)"></textbox>
+								<checkbox value="@bind(v.checkVal)" checked="@bind(v.checkVal)" ></checkbox>
+							
+							
+						</row>
+						</template>	
+					</rows>
+		
+		
+					</grid>
+					<space></space>
+					<div >
+						<hlayout spacing="370px">
+						 <button label="ADD COMPONENT" sclass="bb_button" style="cursor: pointer; cursor: hand;" onClick="@command('onClickAdd')" disabled="@bind(vm.componentPerUnitMasterBean.addButtonDisible)"></button>
+						 <button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; " visible="@bind(vm.componentPerUnitMasterBean.saveButtnVisibles)"></button>
+						 <button label="Update" onClick="@command('onClickUpdate')" sclass="bb_button" style="cursor: pointer; cursor: hand; " visible="@bind(vm.componentPerUnitMasterBean.updateButtonVisible)"></button>
+						</hlayout>
+					</div>
+					
+			
+		</div>	
+
+
+</window>
+</zk>

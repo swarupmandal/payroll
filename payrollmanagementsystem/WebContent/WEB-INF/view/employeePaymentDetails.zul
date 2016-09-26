@@ -1,0 +1,185 @@
+<?page title="SALARY DETAILS" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Salary Adjustments" border="normal" apply="org.zkoss.bind.BindComposer" contentStyle="overflow:scroll;"
+	viewModel="@id('vm') @init('org.appsquad.viewmodel.EmployeePaymentDetailsViewModel')" closable="true" width="55%" height="90%">
+<div style="margin-left:20px">
+	<div >
+		<hlayout spacing="70px">
+			<label value="BLACKBOY DETECTIVE AGENCY PVT. LTD." style="float:left; font-size:18px; color:black; font-weight:bold;"></label>
+			<label value="@bind(vm.salaryMonth)" style=" font-size:18px; color:black;"></label>
+		</hlayout>
+	</div>
+	<label value="UNIT" style="color:black; font-weight:bold;"></label>
+	<div >
+		<vbox>
+			<label value="@bind(vm.companyName)" style="color:black; font-size:15px;"/>
+			<label value="@bind(vm.unitName)" style="color:black; font-size:15px;"/>
+			<label value="@bind(vm.payRollBean.unitDesignation)" style="color:black; font-size:15px;"/>
+	    </vbox>
+	</div>
+
+	
+	
+	<div>
+	  <hlayout spacing="160px">
+		<label value="Employee Information" style="color:black; font-weight:bold;"></label>
+		<label value="OT and Leave Ajustment" style="color:black; font-weight:bold;" visible="false"></label>  	
+	  </hlayout>	
+	  <grid>
+	  	<columns>
+	  		<column align="right"/>
+	  		<column align="left"/>
+	  		<column align="right"/>
+	  		<column align="left"/>
+	  		<column align="right"/>
+	  		<column align="left"/>
+	  	</columns>
+	  	<rows>
+	  		<row>
+	  			 <label value="Employee Code :" style="color:black"></label>	
+	   			 <label value="@bind(vm.payRollBean.empCode)" style="color:black"/>
+	   			 <label value="Employee Name :" style="color:black"></label>	
+	   			 <label value="@bind(vm.payRollBean.empName)" style="color:black"/>
+	   			 <label value="Designation :" style="color:black"></label>	
+	   			 <label value="@bind(vm.payRollBean.empDesignation)" style="color:black"></label>
+	  		</row>
+	  		<row>
+	  			 <label value="PF : " style="color:black"></label>	
+	  			 <label value="@bind(vm.payRollBean.empPf)" style="color:black"></label>
+	  		     <label value="ESI : " style="color:black;"></label>	
+			     <label value="@bind(vm.payRollBean.empEsi)" style="color:black"></label>
+			     <label value="UAN : " style="color:black"></label>	
+	 			 <label value="@bind(vm.payRollBean.empUan)" style="color:black"></label>
+	  		</row>
+	  	</rows>
+	  </grid>
+	  <hlayout visible="false">
+	  <div >
+	  <hlayout>
+	   <label value="Employee Name :" style="color:black"></label>	
+	   <label value="@bind(vm.payRollBean.empName)" style="color:black"/>
+	  </hlayout>
+	  
+	  <hlayout>
+	   <label value="Designation :" style="color:black"></label>	
+	   <label value="@bind(vm.payRollBean.empDesignation)" style="color:black"></label>
+	  </hlayout>
+	  
+	  <hlayout>
+	   <label value="PF : " style="color:black"></label>	
+	   <label value="@bind(vm.payRollBean.empPf)" style="color:black"></label>
+	  </hlayout>
+	  
+	  <hlayout>
+	   <label value="ESI : " style="color:black;"></label>	
+	   <label value="@bind(vm.payRollBean.empEsi)" style="color:black"></label>
+	  </hlayout>
+	  
+	   <hlayout>
+	   <label value="UAN : " style="color:black"></label>	
+	   <label value="@bind(vm.payRollBean.empUan)" style="color:black"></label>
+	  </hlayout>
+	  </div>
+	  
+	  <div  width="500px">
+	  	<vbox visible="false">
+	  	  
+	  	  <hlayout>
+	  	  	<intbox placeholder="Total Working Days" width="150px" value="@bind(vm.totalWorkingDays)"></intbox>
+	  	  	<intbox placeholder="Working Hours Per Day" width="150px" value="@bind(vm.workinghoursPerDay)"></intbox>
+	  	  	<!-- <button label="Save" width="80px"></button> -->
+	  	  
+	  	  </hlayout>
+	  	  
+	  	  
+	  	  <hlayout>
+	  	  	<intbox placeholder="Enter OT Hours" width="150px" value="@bind(vm.otHours)"></intbox>
+	  	  	<button label="Save" width="80px" onClick="@command('onClickSaveOtHours')"></button>
+	  	  
+	  	  </hlayout>
+	  	  	
+	  	  <hlayout>
+	  	  	<intbox placeholder="Enter Leave Days" width="150px" value="@bind(vm.noOfLeaveDays)"></intbox>
+	  	  	<button label="Save" width="80px" onClick="@command('onClickSaveLeaveDays')"></button>
+	  	  </hlayout>
+	  	  
+	  	</vbox>
+	  </div>
+	  </hlayout>
+	  
+	</div>
+	
+	
+	<label value="Salary Information" style="color:black; font-weight:bold;" />
+	<div>
+	    <label value="Earnings" style="color:black" visible="false"></label>
+		<grid model="@bind(vm.payRollBean.earningCompList)">
+		  	<columns>
+				<column label="Allowance Components"/>	
+				<column label="Amount"/>
+			</columns>
+				<template name="model" var = "payr">
+			<row>
+				<textbox value="@bind(payr.componentName)" readonly="true"></textbox>	
+				<doublebox value="@bind(payr.componentAmount)" readonly="true" width="120px"/>
+			</row>
+				</template>
+		</grid>
+		
+		<div>
+		<hlayout spacing="280px">
+			<label value="Total Salary" style="color:black"/>
+			<doublebox value="@bind(vm.payRollBean.totalSalary)" readonly="true" width="120px"/>
+		</hlayout>	
+		</div>
+		
+		
+		<label value="Deductions" style="color:black" visible="false"></label>
+		<grid model="@bind(vm.payRollBean.deductionCompList)">
+		  	<columns>
+				<column label="Deduction Components"/>	
+				<column label="Amount"/>	
+				
+			</columns>
+				<template name="model" var = "payr">
+				<row>
+					<textbox value="@bind(payr.componentName)" readonly="true"></textbox>	
+					<doublebox value="@bind(payr.componentAmount)" readonly="true" width="120px"/>
+				</row>
+				</template>
+		</grid>
+	    
+	    <!-- <label value="Total Deduction"></label> -->
+		
+	</div>
+	
+	<div>
+		<hlayout spacing="258px">
+			<label value="Total Deduction" style="color:black"/>
+			<doublebox value="@bind(vm.payRollBean.totalDeduction)" readonly="true"/>
+		</hlayout>	
+	</div>
+	
+	<grid>
+		<columns>
+			<column label="Total"/>
+			<column label="Amount"/>
+		</columns>
+		<rows>
+			<row>
+				<label value="Net Salary" style="color:black"/>
+				<textbox value="@bind(vm.payRollBean.netSalary)"/>
+			</row>
+		</rows>
+	</grid>
+	
+	<div visible="false">
+		<hlayout spacing="290px">
+			<label value="Net Salary" style="color:white"/>
+			<textbox value="@bind(vm.payRollBean.netSalary)"></textbox>
+		</hlayout>	
+	</div>
+	
+</div>
+</window>
+</zk>

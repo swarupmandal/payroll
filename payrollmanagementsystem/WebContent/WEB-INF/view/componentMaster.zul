@@ -1,0 +1,75 @@
+<?page title="COMPONENT" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Component Master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.ComponentMasterViewMoedl')">
+
+	
+
+	<div align="center">
+		<grid>
+			<columns>
+				<column align="right"/>
+				<column align="left"/>
+				<column align="right"/>
+				<column align="left"/>
+				<column align="right"/>
+				<column align="left"/>
+				
+			</columns>
+			<rows>
+				<row>
+					<label value="Component"/>
+					<textbox placeholder="Component" value="@bind(vm.componentName)"/>
+					
+					<label value="Component Type"></label>
+					<combobox  width="90%" model="@bind(vm.componetTypeList)" placeholder="Select E/D"
+				    value="@bind(vm.componentMasterBean.componentType)"
+					selectedItem="@bind(vm.componentMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.componentType)" value="@bind(v.componentTypeId)" />
+					  </template>
+				    </combobox>
+				
+				<button label="Save" onClick="@command('onClickSave')"  sclass="bb_button"/>
+					<button label="Update" sclass="bb_button" visible="false"/>
+				</row>
+				
+			</rows>
+		</grid>
+		
+	<space></space>
+	
+	</div>
+	
+	<div>
+	
+		<grid model="@bind(vm.componentMasterBeanList)"
+		mold="paging" pageSize="6">
+			<columns>
+				<column label="Component" align="center"></column>
+				
+				<column label="Action" align="center" visible="false"></column>
+			</columns>
+			<rows>
+			
+			<template name="model" var="v">
+				<row>
+				<hlayout>
+				  <textbox value="@bind(v.componentName)"></textbox>
+				    <space></space>
+				  <textbox value="@bind(v.componentType)"></textbox>
+				</hlayout>
+				
+				<hlayout spacing="20px" visible="false">
+				   <button label="Edit"  sclass="bb_button"></button>
+				    <button label="Delete"  sclass="bb_button"></button>
+				</hlayout>
+				</row>
+				</template>
+			</rows>	
+	
+		</grid>
+	</div>
+
+</window>
+</zk>

@@ -1,0 +1,90 @@
+<?page title="UNIT" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Unit Master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.UnitMasterViewModel')">
+<div align="center">
+		<grid>
+			<columns>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+			</columns>
+			<rows>
+				<row>
+					
+					<combobox placeholder="Select Company Name" model="@bind(vm.companyMasterBeanList)" readonly="true"
+					selectedItem="@bind(vm.companyMasterBean)" onSelect="@command('onSelectCompanyName')">
+						<template name="model" var="v">
+							<comboitem label="@bind(v.companyName)" value="@bind(v.companyId)"/>
+						</template>
+					</combobox>
+					
+					
+					<textbox placeholder="Enter Unit Name" value="@bind(vm.unitMasterBean.unitName)"></textbox>
+					
+					<combobox placeholder="Select Base Days Type" model="@bind(vm.baseDaysList)" readonly="true"
+					selectedItem="@bind(vm.baseDaysTypeBean)" onSelect="@command('onSelectBasedaysType')" value="@bind(vm.baseDaysTypeBean.baseDaysType)">
+						<template name="model" var="v">
+						 <comboitem label="@bind(v.baseDaysType)" value="@bind(v.baseDaysTypeId)" />
+						</template>
+					</combobox>
+					
+					<doublebox placeholder="Enter Hour" value="@bind(vm.unitMasterBean.workingHour)"></doublebox>
+					
+					<combobox placeholder="Select Wages Type" model="@bind(vm.wagesTypeBeanList)" readonly="true" selectedItem="@bind(vm.wagesTypeBean)" width="130px"
+					onSelect="@command('onSelectWages')" value="@bind(vm.wagesTypeBean.wagesType)">
+						<template name="model" var = "v">
+						 <comboitem label="@bind(v.wagesType)" value="@bind(v.wagesTypeId)"></comboitem>
+						</template>
+					</combobox>
+					
+					<combobox placeholder="Sunday Selection" model="@bind(vm.sunDaySelecttionBnLst)" readonly="true" selectedItem="@bind(vm.sundayTypeBean)" width="130px"
+					onSelect="@command('onSundaySelect')" value="@bind(vm.sundayTypeBean.sundaySelection)">
+						<template name="model" var = "v">
+						 <comboitem label="@bind(v.sundaySelection)" value="@bind(v.sundaySelectionId)"></comboitem>
+						</template>
+					</combobox>
+					
+					<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; width:60px;"/>
+					<!-- <button label="Update" onClick="@command('onClickUpdate')" visible="false"/> -->
+				</row>
+			</rows>
+		</grid>
+		
+	
+	
+	</div>
+	<space></space>
+	<div>
+	
+		<grid model="@bind(vm.unitMasterBeanList)" mold="paging" pageSize="7">
+			<columns>
+				<column label="Company Name" align="center"></column>
+				<column label="Unit Name" align="center"></column>
+				<column label="Edit" align="center"></column>
+			</columns>
+			<rows>
+			<template name="model" var="v">
+				<row>
+					<textbox placeholder="Company Name" value="@bind(v.companyName)" readonly="true" width="300px" />
+					<textbox placeholder="Unit Name" value="@bind(v.unitName)" readonly="@bind(v.readOnly)" width="300px"/>
+					<hlayout spacing="20px">
+					
+					<a><image src="images/ico_edit.png" onClick="@command('onClickEdit',bean = v)"></image> </a>
+					<button label="Update" sclass="bb_button" onClick="@command('onClickUpdate',bean = v)" visible="false"></button>
+					</hlayout>
+				</row>
+			</template>
+			
+			</rows>	
+	
+		</grid>
+	</div>
+
+
+</window>
+</zk>

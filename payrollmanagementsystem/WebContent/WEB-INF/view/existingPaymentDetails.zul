@@ -1,0 +1,93 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Payment Details" border="normal" apply="org.zkoss.bind.BindComposer" contentStyle="overflow:scroll;"
+	viewModel="@id('vm') @init('org.appsquad.viewmodel.ExistingPayroll')" closable="true" width="55%" height="90%">
+
+	
+	<div style="border:black 2px solid">
+		EARNINGS
+		<grid model="@bind(vm.earningList)">
+			<columns>
+				<column label="Component"></column>
+				<column label="Amount"></column>
+			</columns>
+			<rows>
+			 <template name="model" var = "v">
+				<row>	
+					<textbox value="@bind(v.componentName)"></textbox>
+					<doublebox value="@bind(v.componentAmount)"></doublebox>	
+				</row>
+			 </template>	
+			</rows>
+		</grid>
+		
+		<space></space>
+		
+		<grid>
+			<columns>
+				<column></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<textbox value="TOTAL SALARY"></textbox>
+					<doublebox value="@bind(vm.runPayRollBean.totalSalary)"></doublebox>
+					
+				</row>	
+			</rows>	
+		</grid>
+		<div height="10px"></div>
+		
+		DEDUCTIONS
+		<grid model="@bind(vm.deductionList)">
+			<columns>
+				<column label="Component"></column>
+				<column label="Amount"></column>
+			</columns>
+			<rows>
+			 <template name="model" var = "v">
+				<row>	
+					<textbox value="@bind(v.componentName)"></textbox>
+					<doublebox value="@bind(v.componentAmount)"></doublebox>	
+				</row>
+			 </template>	
+			</rows>
+		</grid>
+	</div>
+
+	<space></space>
+	
+		<grid>
+			<columns>
+				<column></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<textbox value="TOTAL DEDUCTION"></textbox>
+					<doublebox value="@bind(vm.runPayRollBean.totalDeduction)"></doublebox>
+					
+				</row>	
+			</rows>	
+		</grid>
+	
+	<space></space>
+	
+		<grid>
+			<columns>
+				<column></column>
+				<column></column>
+			</columns>
+			<rows>
+				<row>
+					<textbox value="NET SALARY"></textbox>
+					<doublebox value="@bind(vm.runPayRollBean.netSalary)"></doublebox>
+					
+				</row>	
+			</rows>	
+		</grid>
+	
+	<div style="border:black 2px solid"></div>
+
+</window>
+</zk>

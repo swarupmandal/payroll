@@ -1,0 +1,354 @@
+<?page title="RUN PAYROLL" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;" height="100%"
+apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.RunPayrollViewModel')">
+
+<tabbox>
+	<tabs>
+		<tab label="New Sheet Generation"></tab>
+		<tab label="Existing Sheet"></tab>
+	</tabs>
+	<tabpanels>
+		<tabpanel>
+		<div visible="@bind(vm.upperComponentVisibility)">
+     <hlayout spacing="15px"> 
+  		
+  		<vbox>
+	     <label value="Select Month"></label>
+	     <combobox  width="90px" model="@bind(vm.monthList)"
+				   onSelect="@command('onSelectMonth')" value="@bind(vm.monthMasterBean.monthName)"
+					selectedItem="@bind(vm.monthMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.monthName)" value="@bind(v.monthId)" />
+					  </template>
+		  </combobox>
+		</vbox>
+  		
+  		<vbox>
+	     <label value="Select Company Name"></label>
+	     <combobox  width="200px" model="@bind(vm.companyBeanList)" value="@bind(vm.companyMasterBean.companyName)"
+				   onSelect="@command('onSelectCompany')"
+					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.companyName)" value="@bind(v.companyId)" />
+					  </template>
+		  </combobox>
+		</vbox>
+		
+		<vbox>
+		 <label value="Select Unit"></label>
+		 <combobox  width="200px" model="@bind(vm.unitMasterBeanList)" value="@bind(vm.unitMasterBean.unitName)"
+				   onSelect="@command('onSelectUnit')"
+					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.unitName)" value="@bind(v.unitId)" />
+					  </template>
+		</combobox>
+	
+		</vbox>
+		
+		<!-- <vbox>
+		<label value="Total Working Days"></label>
+		<intbox placeholder="Total Working Days" readonly="true" 
+		width="120px" value="@bind(vm.runPayRollBean.totalNumberOfWorkingDaysEveryMonth)"></intbox>
+		</vbox> -->
+		
+		
+		
+		<vbox>
+		 <label value="Unit Designation	"></label>
+		 <combobox  width="130px" model="@bind(vm.unitDesignationBeanList)" value="@bind(vm.unitDesignationBean.unitDesignation)"
+				   onSelect="@command('onSelectUnitDesignation')"
+					selectedItem="@bind(vm.unitDesignationBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.unitDesignation)" value="@bind(v.unitDesignationId)"/>
+					  </template>
+		</combobox>
+	
+		</vbox>
+		
+		<!-- <vbox>
+		<label value="No Of Holidays"></label>
+		  <intbox value="@bind(vm.runPayRollBean.noOfHoliDays)"></intbox>	
+		</vbox> -->
+		
+		<vbox>
+		<label value="Current Date"></label>
+		<label value="@bind(vm.currentDate)"></label>
+		</vbox>
+		
+		<vbox>
+			<label value="Sheet Type"/>
+			<combobox model="@bind(vm.sheetTypeBeanList)" value="@bind(vm.sheetbean.sheetType)"
+			  selectedItem="@bind(vm.sheetbean)" onSelect="@command('onSelectType')" readonly="true"
+			  autocomplete="true" autodrop="true"  width="80%" >
+				<template name="model" var="v">
+					<comboitem label="@bind(v.sheetType)" value="@bind(v.sheetTypeId)"/>
+				</template>
+			</combobox>
+		</vbox>
+		
+		<vbox>
+			<label value="Action"/>
+			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Load" onClick="@command('onClickLoad')" />
+		</vbox>
+		
+		
+	 </hlayout>
+  </div>
+  
+  <div visible="@bind(vm.salaryComponentVisibility)" >
+  <label value="Employee Salary Components"></label>
+  <div>
+  	
+  	<grid width="100%" mold="paging" height="320px" pageSize="5" 
+  	model="@bind(vm.pdfBeanList)">	
+  		<auxhead>
+  			<auxheader colspan="2">
+  				<checkbox checked="@bind(vm.allChecked)" onCheck="@command('onCheckAll')"/><label value="Select"/>
+  			</auxheader>
+  			<auxheader label="Employee Details" colspan="3" style="font-weight:bold;" align="center"/>
+  			<auxheader label="Salary Details" colspan="4" style="font-weight:bold;" align="center"></auxheader>
+  			
+  			
+  		</auxhead>
+  		<columns sizable="true">
+  			<column label="Chk" width="40px"/>
+  			<column label="Sl no" width="50px"></column>
+  			<column label="Emp Code" width="80px"></column>
+  			<column label="Emp Name" width="180px"></column>
+  			<column label="Designation" width="180px"></column>
+  			<column label="Pf Number" width="180px" visible="false"></column>
+  			<column label="Esi Number" width="150px" visible="false"></column>
+  			
+  			
+  			<column label="Components" width="500px" visible="false"></column>
+  			<column label="Total Salary" width="100px"></column>
+  			<column label="Tot Deduct" width="120px"></column>
+  			<column label="Net Salary" width="100px"></column>
+  			<column label="Details" width="150px"></column>
+  			
+  		</columns>
+  		
+  		<rows>
+  		<template name="model" var="v">
+  			<row>
+  			  <checkbox checked="@bind(v.checked)" style="cursor: pointer; cursor: hand;"/>
+  		      <textbox readonly="true" value="@bind(v.empcount)"></textbox>
+  		      <textbox value="@bind(v.empCode)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empName)" ></textbox>
+  		      <textbox width="99%" value="@bind(v.empDesignation)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empPf)" visible="false"></textbox>
+  		      <textbox width="99%" value="@bind(v.empEsi)" visible="false"></textbox>
+  		      
+  		      <groupbox open="false" visible="false">
+  		      <caption label="Components" style="font-weight:bold;"></caption>
+				 
+				 <grid model="@bind(v.componentAmountBeanList)"> 		      
+  		      		<columns>
+  		      			<column label="Components"></column>
+  		      			<column label="Amount"></column>
+  		      			<column label="Component Type"></column>
+  		      		
+  		      		</columns>	
+  		      		<rows>
+  		      			<template name="model" var = "v1">
+  		      			  	<row>
+  		                     <textbox value="@bind(v1.componentName)"></textbox>
+  		                     <textbox value="@bind(v1.componentAmount)"></textbox>
+  		                     <textbox value="@bind(v1.componentType)"></textbox>
+  		      				</row>
+  		      			</template>
+  		      		</rows>
+  		      	</grid>
+  		      	
+  		      </groupbox>
+  		      
+  		      <textbox width="99%" value="@bind(v.totalSalary)"></textbox>
+  		      <textbox width="99%" value="@bind(v.totalDeduction)"></textbox>
+  		      <textbox width="90%" value="@bind(v.netSalary)"></textbox>
+  		      
+  		      
+  		      <label style="cursor: pointer; cursor: hand; width:80px; " 
+  		      value="Details" sclass="bb_button" width="70px" onClick="@command('onClickAdjment', bean=v)"></label>
+  		        	
+  			</row>
+  			</template>
+  		</rows>
+  			
+  
+  	</grid>
+  </div>
+  <div height="5px"></div>
+  <div align="center">
+  <button label="Generate salary slip" onClick="@command('onclickConfirm')" 
+  style="cursor: pointer; cursor: hand; " 
+  sclass="bb_button" />	
+   <button label="Generate salary sheet" onClick="@command('onclickGenerateSheet')"
+    style="cursor: pointer; cursor: hand; " 
+    sclass="bb_button"/>
+    <button label="Save salary sheet" onClick="@command('onclickSaveSalSheet')"
+    style="cursor: pointer; cursor: hand; " 
+    sclass="bb_button"/>	
+  </div>
+  </div>
+  
+  <div>
+  	<space/>
+  	<space/>
+  		<grid mold="paging" pageSize="8" model="@bind(vm.runPayRollBeanList)"
+  		visible="@bind(vm.salaryAdjustmentVisibility)" height="370px">
+  			<columns sizable="true">
+  				<column label="Emp Code" align="center" width="80px"/>
+  				<column label="Emp Name" align="center" width="150px"/>
+  				<column label="Present" align="center"/>
+  				<!-- <column label="Over Time" align="center"/>
+  				<column label="Over Duty"></column> -->
+  				
+  				<column label="E.D" align="center"/>
+  				<column label="Extra Duty"></column>
+  				
+  				<column label="Spcl work" align="center"/>
+  				<column label="Holiday Amt" align="center" width="110px"/>
+  				<column label="Salary Total" align="center"/>
+  				<column label="Deduct" align="center"/>
+  				<column label="Net Salary" align="left"/>
+  				<!-- <column align="left"></column> -->
+  			</columns>
+  			<rows>
+  				<template name="model" var="v">
+	  				<row>
+	  					<textbox value="@bind(v.empCode)" readonly="true" width="75%"/>      
+	  					<textbox value="@bind(v.empName)"  readonly="true"/>
+	  					<textbox value="@bind(v.presentDay)" onChange="@command('onChangePresentDays',bean = v)"/>
+	  					<textbox value="@bind(v.otHoursF)" />
+	  					<textbox value="@bind(v.overTime)"></textbox>
+	  					<textbox value="@bind(v.specialTime)"/>
+	  					<textbox value="@bind(v.holiDayAmount)"/>
+	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
+	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
+	  					<textbox value="@bind(v.netSalary)" readonly="true" width="75%"/>
+	  					<!-- <button label="Save" onClick="@command('onClcikOtandLeaveSave', bean = v)"></button> -->
+	  				</row>
+  				</template>
+  			</rows>
+  		</grid>
+  		<div align="center">
+  		<div height="5px"></div>
+  			<vbox>
+  				<button label="Calculate" onClick="@command('onClickCalculate')" sclass="bb_button"  
+  				style="cursor: pointer; cursor: hand;" visible="@bind(vm.calculateButtonVisibility)" />
+  				<button label="Next" sclass="bb_button"  
+  				style="cursor: pointer; cursor: hand;" onClick="@command('onClickNext')" visible="@bind(vm.nextButtonVisibility)"/>
+  				<button label="Previous" sclass="bb_button" onClick="@command('onClickPrevious')" visible="@bind(vm.prevButtonVisibility)"/>
+  			</vbox>
+  			
+  		</div>
+  	
+  	  </div>
+	</tabpanel>
+ 
+	
+		
+	<tabpanel>
+		<div>
+		  <hlayout>
+			<combobox placeholder="YEAR" readonly="true" model="@bind(vm.lvYrList2)" selectedItem="@bind(vm.exPayrollBn.lvYr2)" 
+			   value="@bind(vm.exPayrollBn.lvYr2)" onSelect="@command('onSelectYr2')" width="80px">
+			   <template name="model" var = "v">
+			   	<comboitem label="@load(v)" value="@load(v)"></comboitem>
+			   	</template>	
+			</combobox>
+			
+			
+			<combobox placeholder="MONTH" readonly="true" model="@bind(vm.monthList2)" selectedItem="@bind(vm.monthBean2)"
+		   	  value="@bind(vm.monthBean2.monthName)" onSelect="@command('onSelectMonth2')" autocomplete="true" width="100px">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.monthName)" value="@load(v.monthId)"></comboitem>
+			
+				</template>
+			</combobox>
+			
+			<combobox placeholder="COMPANY" readonly="true" autocomplete="true" model="@bind(vm.companyBeanList2)" width="200px"
+			selectedItem="@bind(vm.companyMasterBean2)" value="@bind(vm.companyMasterBean2.companyName)" onSelect="@command('onSelectCompany2')">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.companyName)" value="@load(v.companyId)"></comboitem>
+				</template>
+			</combobox>
+			
+			<combobox placeholder="UNIT" readonly="true" autocomplete="true" model="@bind(vm.unitMasterBeanList2)" width="200px"
+			selectedItem="@bind(vm.unitMasterBean2)" value="@bind(vm.unitMasterBean2.unitName)" onSelect="@command('onSelectUnit2')">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.unitName)" value="@load(v.unitId)"></comboitem>
+				</template>
+			</combobox>
+			
+			<combobox placeholder="DESIGNATION" readonly="true" model="@bind(vm.unitDesignationList2)" 
+			selectedItem="@bind(vm.unitDesignationBean2)" value="@bind(vm.unitDesignationBean2.unitDesignation)" onSelect="@command('onSelectUnitDesignation2')">
+				<template name="model" var="v">
+				<comboitem label="@bind(v.unitDesignation)" value="@bind(v.unitDesignationId)"/>
+				</template>
+			</combobox>	  		
+		  
+			<combobox model="@bind(vm.exSheetTypeBeanList)" value="@bind(vm.exSheetTypeBean.sheetType)" placeholder="SHEET TYPE"
+			  selectedItem="@bind(vm.exSheetTypeBean)" onSelect="@command('onSelectExSheetType')" readonly="true"
+			  autocomplete="true" autodrop="true"  width="80%" >
+				<template name="model" var="v">
+					<comboitem label="@bind(v.sheetType)" value="@bind(v.sheetTypeId)"/>
+				</template>
+			</combobox>
+		  
+		    <button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="LOAD" onClick="@command('onClickLoad2')"></button>
+		  
+		  </hlayout>	
+		</div>
+		
+		<div>
+			<grid model="@bind(vm.payrollExistBeanList)" mold="paging" pageSize="8">
+			<!-- <grid model="@bind(vm.exPdfSheetBeanList)" mold="paging" pageSize="8"> -->
+				<columns>
+						<column label="Chk" width="40px" visible="false"></column>
+						<column label="Employee Name" width="180px"></column>
+						<column label="Employee Code"></column>
+						<column label="Designation"></column>
+						<column label="Present Day"></column>
+						<column label="Net Salary"></column>
+						<column label="Details"></column>
+				</columns>
+		
+				<rows>
+				  <template name="model" var = "v">
+					<row>
+						<checkbox checked="@bind(v.exChecked)"/>
+						<textbox value="@bind(v.empName)" readonly="true"></textbox>
+						<textbox value="@bind(v.empCode)" readonly="true"></textbox>
+						<textbox value="@bind(v.empDesignation)" readonly="true"></textbox>
+						<textbox value="@bind(v.presentDay)" readonly="true"></textbox>
+						<doublebox value="@bind(v.netSalary)" readonly="true"></doublebox>
+						<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="DETAILS" 
+												onClick="@command('onClickDetails2', bean = v)"></button>
+					</row>
+				  </template>	
+				</rows>
+			
+			</grid>
+			
+		 <button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Remove" onClick="@command('onClickRemove')"></button>
+		 <space></space>
+		 <button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Generate Sheet" onClick="@command('onClickExSheetGenerate')"></button>
+		 <space></space>
+		 <button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Generate Slip" onClick="@command('onClickExSlipGenerate')" visible="false"></button>
+		</div>
+	
+	</tabpanel>
+
+</tabpanels>
+	
+
+
+</tabbox>
+
+
+  
+</window>
+</zk>
