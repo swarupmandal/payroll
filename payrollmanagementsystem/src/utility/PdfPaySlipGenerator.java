@@ -1046,7 +1046,7 @@ public class PdfPaySlipGenerator {
 						}
 						else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getOverTime()>0.0){
 							System.out.println("^^^^^^^^^^^^ ED+extra duty block GIVEN ^^^^^^^^^^^^");
-							table = new PdfPTable(earnList.size()+3);
+							table = new PdfPTable(earnList.size()+3);                                  //recently chenged for hnnimn for basic+ed+ex. duty
 						}else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getBasic()>0){
 							System.out.println("^^^^^^^^^^^^ PD+BASIC+OT block GIVEN ^^^^^^^^^^^^");
 							table = new PdfPTable(earnList.size()+2);
@@ -1116,8 +1116,8 @@ public class PdfPaySlipGenerator {
 					table.addCell(createLabelCell("Salary Total"));
 				}
 				if(overTime){
-					table.addCell(createLabelCell("Ex.Duty"));
-					//table.addCell(createLabelCell("Salary Total"));
+					table.addCell(createLabelCell("Ex.Duty")); // hv to change for hanimn if ex duty alredy created this cell is again creating.. for hanimmnn comment this cell and print(it will give proper output)
+ 					//table.addCell(createLabelCell("Salary Total"));
 				}
 				if(bothNotGiven){
 					table.addCell(createLabelCell("Salary Total"));
